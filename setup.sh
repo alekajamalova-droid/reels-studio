@@ -2,6 +2,8 @@
 # Установка студии (Mac или Linux). Запуск: bash setup.sh
 set -e
 cd "$(dirname "$0")"
+# уже установленный Homebrew (повторный запуск после обрыва)
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 if [ "$(uname)" = "Darwin" ]; then
   if ! command -v brew >/dev/null; then
     echo "Ставлю Homebrew…"
@@ -31,4 +33,10 @@ if [ ! -f "models/$MODEL/model.bin" ]; then
   echo "Качаю модель Whisper $MODEL (~3 ГБ)…"
   .venv/bin/python -c "from faster_whisper import download_model as d; d('$MODEL', output_dir='models/$MODEL')"
 fi
+echo
+echo "Проверка:"
+command -v brew >/dev/null && echo "  Homebrew  — есть" || echo "  Homebrew  — НЕТ"
+ffmpeg -hide_banner -filters 2>/dev/null | grep -q " ass " && echo "  ffmpeg    — есть (с субтитрами)" || echo "  ffmpeg    — НЕТ"
+.venv/bin/python -c "import faster_whisper, flask" 2>/dev/null && echo "  Whisper   — есть" || echo "  Whisper   — НЕТ"
+[ -f "models/$MODEL/model.bin" ] && echo "  Модель    — есть" || echo "  Модель    — НЕТ"
 echo "Готово. Запуск: ./рилс Исходники/видео.mp4"
