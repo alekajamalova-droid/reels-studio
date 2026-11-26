@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# смонтируй рилс <файл>  →  ./рилс <файл>
+set -e
+cd "$(dirname "$0")"
+PY=.venv/bin/python
+if [ -z "$1" ]; then echo "Использование: ./рилс <видео>   (файл или имя из папки Исходники)"; exit 1; fi
+# 1) веб-панель (если ещё не запущена)
+if ! curl -s -o /dev/null http://localhost:8765/api/list; then
+  nohup $PY studio/panel.py --open > work/panel.log 2>&1 &
+  sleep 1
+fi
+# 2) Расшифровка + Сценарист
+$PY studio/reels.py prepare "$1"
+NAME=$($PY -c "import sys;sys.path.insert(0,'studio');import reels;from pathlib import Path;print(reels.project_name(Path(sys.argv[1])))" "$1")
+echo
+echo "Проверь расшифровку: панель http://localhost:8765 или файл work/$NAME/transcript.txt"
+if [ "$2" = "--auto" ]; then ANS=""; else read -r -p "Исправила? Enter — рендер, п — сначала превью: " ANS; fi
+if [ "$ANS" = "п" ]; then $PY studio/reels.py preview "$NAME"; read -r -p "Enter — финальный рендер: " _; fi
+# 3) Субтитры + Звук + Рендер
+$PY studio/reels.py render "$NAME"

@@ -1,0 +1,17 @@
+{
+  "whisper_model": "large-v3",
+  "compute_type": "int8",
+  "language": "kk",
+  "whisper_prompt": "Сәлем! Ээ, эм, ммм... Бүгін мен сендерге айтамын, короче, вообще, смотрите.",
+  "filler_regex": "(э+|ээ+м*|э+м+|е{2,}м*|м{2,}|хм+|ммм+|а{2,}|ы+|ә{2,}|әм+|uh+|um+|эх)",
+  "phrase_max_words": 9,
+  "max_pause": 0.25,
+  "pad": 0.08,
+  "fps": 30,
+  "loudness": {"I": -14, "TP": -1.0, "LRA": 11},
+  "hook": {"seconds": 3, "font": "Inter Black", "size": 104, "outline": 7, "shadow": 2,
+           "margin_top": 360, "wrap_chars": 14, "uppercase": true, "max_words_auto": 7},
+  "hook_max_words": 7,
+  "subs": {"font": "Inter", "size": 96, "outline": 6, "shadow": 2, "margin_bottom": 420,
+           "words_per_caption": 1, "uppercase": false, "keep_punctuation": false}
+}

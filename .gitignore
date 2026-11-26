@@ -1,0 +1,10 @@
+.venv/
+models/
+work/
+Готово/*
+Исходники/*
+!Готово/.gitkeep
+!Исходники/.gitkeep
+__pycache__/
+*.part.mp4
+.DS_Store
