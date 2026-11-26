@@ -8,6 +8,9 @@ if [ "$(uname)" = "Darwin" ]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     eval "$(/opt/homebrew/bin/brew shellenv 2>/dev/null || /usr/local/bin/brew shellenv)"
   fi
+  # чтобы brew и ffmpeg находились в каждом новом окне Терминала
+  BREW=$(command -v brew)
+  grep -q "brew shellenv" ~/.zprofile 2>/dev/null || echo "eval \"\$($BREW shellenv)\"" >> ~/.zprofile
   brew install ffmpeg python@3.12
   # нужен ffmpeg с libass (субтитры). Если в обычном его нет — ставим полный
   if ! ffmpeg -hide_banner -filters 2>/dev/null | grep -q " ass "; then

@@ -2,6 +2,8 @@
 # смонтируй рилс <файл>  →  ./рилс <файл>
 set -e
 cd "$(dirname "$0")"
+# Homebrew на Mac (Apple Silicon и Intel)
+export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 PY=.venv/bin/python
 if [ -z "$1" ]; then echo "Использование: ./рилс <видео>   (файл или имя из папки Исходники)"; exit 1; fi
 # 1) веб-панель (если ещё не запущена)
